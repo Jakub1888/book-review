@@ -2,79 +2,67 @@
   "name": "book-review",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "book-review",
   "sourceRoot": "apps/book-review/src",
-  "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@analogjs/platform:vite",
+      "outputs": [
+        "{options.outputPath}",
+        "{workspaceRoot}/dist/apps/book-review/.nitro",
+        "{workspaceRoot}/dist/apps/book-review/ssr",
+        "{workspaceRoot}/dist/apps/book-review/analog"
+      ],
       "options": {
-        "outputPath": "dist/apps/book-review",
-        "index": "apps/book-review/src/index.html",
-        "browser": "apps/book-review/src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "apps/book-review/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/book-review/src/favicon.ico",
-          "apps/book-review/src/assets"
-        ],
-        "styles": ["apps/book-review/src/styles.scss"],
-        "scripts": []
+        "main": "apps/book-review/src/main.ts",
+        "configFile": "apps/book-review/vite.config.ts",
+        "outputPath": "dist/apps/book-review/client",
+        "tsConfig": "apps/book-review/tsconfig.app.json"
       },
+      "defaultConfiguration": "production",
       "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "outputHashing": "all"
-        },
         "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
+          "mode": "development"
+        },
+        "production": {
+          "sourcemap": false,
+          "mode": "production"
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@analogjs/platform:vite-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "book-review:build",
+        "port": 4200
+      },
       "configurations": {
+        "development": {
+          "buildTarget": "book-review:build:development",
+          "hmr": true
+        },
         "production": {
           "buildTarget": "book-review:build:production"
-        },
-        "development": {
-          "buildTarget": "book-review:build:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "book-review:build"
+        "browserTarget": "book-review:build"
       }
+    },
+    "test": {
+      "executor": "@analogjs/platform:vitest",
+      "outputs": ["{projectRoot}/coverage"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "jestConfig": "apps/book-review/jest.config.ts"
+        "lintFilePatterns": ["apps/book-review/**/*.{ts,html}"]
       }
     }
-  }
+  },
+  "tags": []
 }
