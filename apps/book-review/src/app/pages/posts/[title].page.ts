@@ -1,27 +1,25 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { MarkdownComponent } from '@analogjs/content';
 import { Observable } from 'rxjs';
 import { Post } from './Post';
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { PostsService } from '../../services/post.service';
 import { Router } from '@angular/router';
+import { PostComponent } from '../../components/post/post.component';
 
 @Component({
 	standalone: true,
-	imports: [NgIf, AsyncPipe, DatePipe, MarkdownComponent],
+	imports: [NgIf, AsyncPipe, DatePipe, PostComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<ng-container *ngIf="post$ | async as post; else loading">
-			<h2>{{ post.title }}</h2>
+		<div class="container mx-auto px-4 py-8 max-w-3xl" *ngIf="post$ | async as post; else loading">
 			<button (click)="removePost(post.id)">Remove Post</button>
 
-			<span>Published: {{ post.createdAt | date }}</span>
-			<analog-markdown [content]="post.content" />
+			<book-review-post [post]="post" [showMarkdown]="true"></book-review-post>
 
 			<ng-template #noPost>
 				<p>No Post Found.</p>
 			</ng-template>
-		</ng-container>
+		</div>
 		<ng-template #loading>loading...</ng-template>
 	`,
 })

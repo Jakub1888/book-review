@@ -32,8 +32,8 @@ export class PostsService {
 	}
 
 	public createPost(post: Post): Observable<Post> {
-		const { author, title, content, synopsis } = post;
-		return this.trpc.post.create.mutate({ author, title, content, synopsis }).pipe(
+		const { author, title, content, imageUrl, synopsis } = post;
+		return this.trpc.post.create.mutate({ author, title, content, imageUrl, synopsis }).pipe(
 			take(1),
 			tap(() => this.postsChangedSubject.next(true))
 		);

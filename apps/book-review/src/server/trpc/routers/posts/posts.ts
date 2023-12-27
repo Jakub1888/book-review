@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { protectedProcedure, publicProcedure, router } from '../../trpc';
+import { publicProcedure, router } from '../../trpc';
 import { Prisma } from '@prisma/client';
 import { prisma } from '../../prisma';
 
@@ -8,19 +8,21 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
 	title: true,
 	content: true,
 	synopsis: true,
+	imageUrl: true,
 	author: true,
 	createdAt: true,
 	updatedAt: true,
 });
 
 export const postRouter = router({
-	create: protectedProcedure
+	create: publicProcedure
 		.input(
 			z.object({
 				title: z.string(),
 				content: z.string(),
 				synopsis: z.string(),
 				author: z.string(),
+				imageUrl: z.string(),
 			})
 		)
 		.mutation(({ input }) =>
@@ -30,6 +32,7 @@ export const postRouter = router({
 					content: input.content,
 					synopsis: input.synopsis,
 					author: input.author,
+					imageUrl: input.imageUrl,
 				},
 				select: defaultPostSelect,
 			})
@@ -42,13 +45,14 @@ export const postRouter = router({
 	single: publicProcedure
 		.input(z.object({ title: z.string() }))
 		.query(({ input }) => prisma.post.findFirst({ where: { title: input.title } })),
-	update: protectedProcedure
+	update: publicProcedure
 		.input(
 			z.object({
 				id: z.string(),
 				title: z.string(),
 				content: z.string(),
 				synopsis: z.string(),
+				imageUrl: z.string(),
 				author: z.string(),
 			})
 		)
@@ -58,12 +62,13 @@ export const postRouter = router({
 					title: input.title,
 					content: input.content,
 					synopsis: input.synopsis,
+					imageUrl: input.imageUrl,
 					author: input.author,
 				},
 				where: { id: input.id },
 			})
 		),
-	remove: protectedProcedure
+	remove: publicProcedure
 		.input(
 			z.object({
 				id: z.string(),

@@ -1,34 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { Post } from './Post';
 import { PostFormComponent } from '../../components/post-form/post-form.component';
 import { PostsService } from '../../services/post.service';
-import { MarkdownComponent } from '@analogjs/content';
+import { PostComponent } from '../../components/post/post.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
 	standalone: true,
-	imports: [NgIf, FormsModule, MarkdownComponent, RouterLink, AsyncPipe, DatePipe, PostFormComponent],
+	imports: [NgIf, FormsModule, AsyncPipe, RouterModule, PostFormComponent, PostComponent],
 	template: `
-		<div class="container mx-auto px-4 py-8 max-w-4xl" *ngIf="posts$ | async as posts">
-			<h2 class="text-3xl font-bold mb-4">Latest Blog Posts</h2>
+		<div class="container mx-auto px-4 py-8 max-w-3xl" *ngIf="posts$ | async as posts">
 			@for (post of posts; track post.id) {
-			<div class="overflow-hidden my-6 border-b-2 border-gray-400">
-				<div class="flex content-start">
-					<img src="https://via.placeholder.com/600x800" alt="Blog Post Image" class="w-1/3 h-auto object-cover" />
-					<div class="ml-4">
-						<h2 class="text-lg font-semibold" [routerLink]="['/posts', post.title]">
-							{{ post.title }}
-						</h2>
-						<span>Published: {{ post.createdAt | date }}</span>
-					</div>
-				</div>
-				<div class="p-4 w-2/3">
-					<analog-markdown [content]="post.content" />
-				</div>
-			</div>
+			<book-review-post [post]="post"></book-review-post>
+			<button [routerLink]="['/posts', post.title]">Read More...</button>
 			}
 		</div>
 

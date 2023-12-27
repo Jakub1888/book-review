@@ -4,6 +4,7 @@ export type Post = {
 	author: string;
 	content: string;
 	synopsis: string;
+	imageUrl: string;
 	createdAt: string;
-	updatedAt: string;
+	updatedAt?: string;
 };
