@@ -19,6 +19,7 @@
     "@angular/router": "~17.0.0",
     "@nx/angular": "17.2.7",
     "@prisma/client": "^5.7.1",
+    "@tailwindcss/typography": "^0.5.10",
     "@trpc/client": "^10.25.0",
     "@trpc/server": "^10.25.0",
     "front-matter": "^4.0.2",

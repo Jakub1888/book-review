@@ -11,5 +11,5 @@ module.exports = {
 			sans: ['Montserrat', 'sans-serif'],
 		},
 	},
-	plugins: [],
+	plugins: [require('@tailwindcss/typography')],
 };

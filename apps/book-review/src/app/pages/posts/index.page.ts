@@ -18,7 +18,7 @@ export const routeMeta: RouteMeta = {
 	template: `
 		<ng-container *ngIf="posts$ | async as posts">
 			@for (post of posts; track post.id) {
-			<div class="border-b-2 py-10">
+			<div class="border-b-2 pt-10 pb-2">
 				<book-review-post [post]="post"></book-review-post>
 				<button
 					class="bg-slate-700 hover:bg-blue-300 transition duration-300 text-white font-light py-2 px-6 rounded-full shadow-md"

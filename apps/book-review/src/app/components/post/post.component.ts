@@ -9,8 +9,8 @@ import { RouterModule } from '@angular/router';
 	standalone: true,
 	imports: [CommonModule, MarkdownComponent, RouterModule, DatePipe],
 	template: `
-		<div class="overflow-hidden mb-2 text-base leading-6 md:text-xl md:leading-8 font-extralight text-justify">
-			<div class="flex flex-col items-center content-start sm:flex-row bg-gray-200 p-3">
+		<div class="overflow-hidden mb-2 text-base leading-6 md:text-xl md:leading-8 font-extralight">
+			<div class="not-prose flex flex-col items-center content-start sm:flex-row bg-gray-200 p-3">
 				<img
 					[hidden]="imgLoading"
 					(load)="imgLoading = false"

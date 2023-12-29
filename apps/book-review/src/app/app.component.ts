@@ -12,7 +12,7 @@ import { FooterComponent } from './components/layout/footer.component';
 	},
 	template: `
 		<book-review-header></book-review-header>
-		<main class="container mx-auto px-4 py-8 max-w-3xl">
+		<main class="container mx-auto px-4 py-14 max-w-3xl text-justify prose" v-html="cleanedMarkdown">
 			<router-outlet></router-outlet>
 		</main>
 		<book-review-footer></book-review-footer>
