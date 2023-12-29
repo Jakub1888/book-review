@@ -11,21 +11,24 @@ import { PostComponent } from '../../components/post/post.component';
 	imports: [NgIf, AsyncPipe, DatePipe, PostComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<button class="block float-right font-thin text-sm link-hover" (click)="navigateBack()">Navigate Back</button>
+		<div class="flex flex-col items-end">
+			<button class="inline-block float-right font-thin text-sm link-hover" (click)="navigateBack()">
+				Navigate Back
+			</button>
 
-		<ng-container *ngIf="post$ | async as post; else loadingOrNoPost">
-			<button (click)="removePost(post.id)">Remove Post</button>
-			<book-review-post [post]="post" [isList]="false"></book-review-post>
-		</ng-container>
+			<ng-container *ngIf="post$ | async as post; else loadingOrNoPost">
+				<book-review-post [post]="post" [isList]="false"></book-review-post>
+			</ng-container>
 
-		<ng-template #loadingOrNoPost>
-			<div class="flex min-h-48 justify-center items-center">
-				<ng-container *ngIf="!(post$ | async) && !(postLoading$ | async)">
-					<p>No Post Found.</p>
-				</ng-container>
-				<ng-container *ngIf="postLoading$ | async"> Loading... </ng-container>
-			</div>
-		</ng-template>
+			<ng-template #loadingOrNoPost>
+				<div class="flex min-h-48 justify-center items-center">
+					<ng-container *ngIf="!(post$ | async) && !(postLoading$ | async)">
+						<p>No Post Found.</p>
+					</ng-container>
+					<ng-container *ngIf="postLoading$ | async"> Loading... </ng-container>
+				</div>
+			</ng-template>
+		</div>
 	`,
 })
 export default class PostDetailPageComponent implements OnInit {
@@ -38,10 +41,6 @@ export default class PostDetailPageComponent implements OnInit {
 	ngOnInit(): void {
 		this.postLoading$ = this.postsService.isLoading();
 		this.post$ = this.postsService.getSinglePost(this.title);
-	}
-
-	removePost(id: string): void {
-		this.postsService.removePost(id).subscribe(() => this.navigateBack());
 	}
 
 	navigateBack(): void {

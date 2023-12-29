@@ -2,7 +2,6 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Post } from './Post';
-import { PostFormComponent } from '../../components/post/post-form.component';
 import { PostsService } from '../../services/post.service';
 import { PostComponent } from '../../components/post/post.component';
 import { RouterModule } from '@angular/router';
@@ -15,11 +14,11 @@ export const routeMeta: RouteMeta = {
 
 @Component({
 	standalone: true,
-	imports: [NgIf, AsyncPipe, RouterModule, PostFormComponent, PostComponent],
+	imports: [NgIf, AsyncPipe, RouterModule, PostComponent],
 	template: `
 		<ng-container *ngIf="posts$ | async as posts">
 			@for (post of posts; track post.id) {
-			<div class="border-b-2 py-2">
+			<div class="border-b-2 py-10">
 				<book-review-post [post]="post"></book-review-post>
 				<button
 					class="bg-slate-700 hover:bg-blue-300 transition duration-300 text-white font-light py-2 px-6 rounded-full shadow-md"
@@ -30,8 +29,6 @@ export const routeMeta: RouteMeta = {
 			</div>
 			}
 		</ng-container>
-
-		<book-review-post-form></book-review-post-form>
 	`,
 })
 export default class IndexPage implements OnInit {

@@ -5,7 +5,6 @@ import {
 	of,
 	startWith,
 	switchMap,
-	take,
 	tap,
 	catchError,
 	EMPTY,
@@ -32,14 +31,6 @@ export class PostsService {
 		this.getAllPosts();
 	}
 
-	public createPost(post: Post): Observable<Post> {
-		const { author, title, content, imageUrl, synopsis } = post;
-		return this.trpc.post.create.mutate({ author, title, content, imageUrl, synopsis }).pipe(
-			take(1),
-			tap(() => this.postsChangedSubject.next(true))
-		);
-	}
-
 	public getAllPosts(): void {
 		this.allPosts$ = this.postsChanged$.pipe(
 			startWith(true),
@@ -62,13 +53,6 @@ export class PostsService {
 			}),
 			catchError(() => EMPTY),
 			finalize(() => this.postLoading$.next(false))
-		);
-	}
-
-	public removePost(id: string): Observable<Post> {
-		return this.trpc.post.remove.mutate({ id }).pipe(
-			take(1),
-			tap(() => this.postsChangedSubject.next(true))
 		);
 	}
 
