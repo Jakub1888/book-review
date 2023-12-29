@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -69,9 +69,11 @@ import { PostsService } from '../../services/post.service';
 	`,
 })
 export class PostFormComponent {
-	postForm: FormGroup;
+	private readonly postsService = inject(PostsService);
+	private readonly formBuilder = inject(FormBuilder);
+	public postForm: FormGroup;
 
-	constructor(private readonly postsService: PostsService, private readonly formBuilder: FormBuilder) {
+	constructor() {
 		this.postForm = this.formBuilder.group({
 			title: ['', Validators.required],
 			author: ['', Validators.required],

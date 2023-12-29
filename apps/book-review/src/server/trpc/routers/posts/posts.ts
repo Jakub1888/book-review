@@ -40,6 +40,9 @@ export const postRouter = router({
 	list: publicProcedure.query(() =>
 		prisma.post.findMany({
 			select: defaultPostSelect,
+			orderBy: {
+				createdAt: 'desc',
+			},
 		})
 	),
 	single: publicProcedure

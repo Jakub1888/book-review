@@ -8,3 +8,7 @@ body {
 	display: block;
 	height: 100%;
 }
+
+.link-hover {
+	@apply hover:text-blue-300 transition duration-300;
+}

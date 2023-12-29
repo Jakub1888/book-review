@@ -12,6 +12,7 @@ import {
 	throwError,
 	finalize,
 	BehaviorSubject,
+	shareReplay,
 } from 'rxjs';
 import { Post } from '../pages/posts/Post';
 import { injectTrpcClient } from '../../trpc-client';
@@ -42,14 +43,15 @@ export class PostsService {
 	public getAllPosts(): void {
 		this.allPosts$ = this.postsChanged$.pipe(
 			startWith(true),
-			take(1),
 			switchMap(() => this.trpc.post.list.query()),
-			finalize(() => this.postLoading$.next(false))
+			finalize(() => this.postLoading$.next(false)),
+			shareReplay(1)
 		);
 	}
 
 	public getSinglePost(title: string): Observable<Post | null> {
 		return this.allPosts$?.pipe(
+			tap(() => this.postLoading$.next(true)),
 			switchMap(posts => {
 				if (posts.length === 0) {
 					return this.trpc.post.single.query({ title });
